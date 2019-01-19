@@ -366,6 +366,16 @@ int main(int argc, char *argv[]) {
         CFG_CUSTOM_SEP_BLOCK_WIDTH_OPT,
         CFG_END()};
 
+    cfg_opt_t bitcoin_opts[] = {
+            CFG_STR("format_up", "%ip", CFGF_NONE),
+            CFG_STR("format_down", "no IPv6", CFGF_NONE),
+            CFG_CUSTOM_ALIGN_OPT,
+            CFG_CUSTOM_COLOR_OPTS,
+            CFG_CUSTOM_MIN_WIDTH_OPT,
+            CFG_CUSTOM_SEPARATOR_OPT,
+            CFG_CUSTOM_SEP_BLOCK_WIDTH_OPT,
+            CFG_END()};
+
     cfg_opt_t battery_opts[] = {
         CFG_STR("format", "%status %percentage %remaining", CFGF_NONE),
         CFG_STR("format_down", "No battery", CFGF_NONE),
@@ -503,6 +513,7 @@ int main(int argc, char *argv[]) {
         CFG_SEC("disk", disk_opts, CFGF_TITLE | CFGF_MULTI),
         CFG_SEC("volume", volume_opts, CFGF_TITLE | CFGF_MULTI),
         CFG_SEC("ipv6", ipv6_opts, CFGF_NONE),
+        CFG_SEC("bitcoin", bitcoin_opts, CFGF_NONE),
         CFG_SEC("time", time_opts, CFGF_NONE),
         CFG_SEC("tztime", tztime_opts, CFGF_TITLE | CFGF_MULTI),
         CFG_SEC("ddate", ddate_opts, CFGF_NONE),
@@ -688,7 +699,17 @@ int main(int argc, char *argv[]) {
                 SEC_OPEN_MAP("ipv6");
                 print_ipv6_info(json_gen, buffer, cfg_getstr(sec, "format_up"), cfg_getstr(sec, "format_down"));
                 SEC_CLOSE_MAP;
+                    /*    SEC_OPEN_MAP("bitcoin");
+                        print_bitcoin_info(json_gen, buffer, cfg_getstr(sec, "format_up"), cfg_getstr(sec, "format_down"));
+                        SEC_CLOSE_MAP;*/
             }
+
+            CASE_SEC("bitcoin") {
+                SEC_OPEN_MAP("bitcoin");
+                print_bitcoin_info(json_gen, buffer, cfg_getstr(sec, "format_up"), cfg_getstr(sec, "format_down"));
+                SEC_CLOSE_MAP;
+            }
+
 
             CASE_SEC_TITLE("wireless") {
                 SEC_OPEN_MAP("wireless");
